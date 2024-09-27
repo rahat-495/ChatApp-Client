@@ -4,11 +4,13 @@ import { IoClose } from "react-icons/io5";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import toast from 'react-hot-toast';
+import {Input} from '@material-tailwind/react'
 
 const key = import.meta.env.VITE_IMAGE_HOISTING_API_KEY;
 const apiUrl = `https://api.imgbb.com/1/upload?key=${key}`;
 
 const Register = () => {
+
   const [data,setData] = useState({
     name : "",
     email : "",
@@ -56,8 +58,8 @@ const Register = () => {
   }
 
   const handleSubmit = async(e)=>{
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault() ;
+    e.stopPropagation() ;
 
     const URL = `${import.meta.env.REACT_APP_BACKEND_URL}/api/register`
 
@@ -68,34 +70,32 @@ const Register = () => {
         toast.success(response.data.message)
 
         if(response.data.success){
-            setData({
-              name : "",
-              email : "",
-              password : "",
-              profile_pic : ""
-            })
-
-            navigate('/email')
-
+          setData({
+            name : "",
+            email : "",
+            password : "",
+            profile_pic : ""
+          }) ;
+          toast('Register Done !') ;
+          navigate('/email') ;
         }
     } catch (error) {
         toast.error(error?.response?.data?.message)
     }
-    console.log('data',data)
   }
 
 
   return (
     <div className='mt-5'>
-        <div className='bg-white w-full max-w-md  rounded overflow-hidden p-4 mx-auto'>
+        <div className='bg-white w-full max-w-md text-black gro rounded overflow-hidden p-4 mx-auto'>
           <h3>Welcome to Chat app!</h3>
 
-          <form className='grid gap-4 mt-5' onSubmit={handleSubmit}>
+          <form className='grid gap-4 mt-5 text-black gro' onSubmit={handleSubmit}>
               <div className='flex flex-col gap-1'>
-                <label htmlFor='name'>Name :</label>
-                <input
-                  type='text'
-                  id='name'
+                <Input
+                  color='blue'
+                  label='Name'
+                  type='text' 
                   name='name'
                   placeholder='enter your name' 
                   className='bg-slate-100 px-2 py-1 focus:outline-primary'
@@ -106,10 +106,10 @@ const Register = () => {
               </div>
 
               <div className='flex flex-col gap-1'>
-                <label htmlFor='email'>Email :</label>
-                <input
+                <Input
+                  color='blue'
+                  label='Email'
                   type='email'
-                  id='email'
                   name='email'
                   placeholder='enter your email' 
                   className='bg-slate-100 px-2 py-1 focus:outline-primary'
@@ -120,10 +120,10 @@ const Register = () => {
               </div>
 
               <div className='flex flex-col gap-1'>
-                <label htmlFor='password'>Password :</label>
-                <input
+                <Input
+                  color='blue'
+                  label='Password'
                   type='password'
-                  id='password'
                   name='password'
                   placeholder='enter your password' 
                   className='bg-slate-100 px-2 py-1 focus:outline-primary'
@@ -134,9 +134,9 @@ const Register = () => {
               </div>
 
               <div className='flex flex-col gap-1'>
-                <label htmlFor='profile_pic'>Photo :
+                <label htmlFor='profile_pic'>
 
-                  <div className='h-14 bg-slate-200 flex justify-center items-center border rounded hover:border-primary cursor-pointer'>
+                  <div className='h-14 bg-slate-200 flex justify-center items-center border border-[#9e9e9e] rounded hover:border-blue-600 cursor-pointer'>
                       <p className='text-sm max-w-[300px] text-ellipsis line-clamp-1'>
                         {
                           uploadPhoto?.name ? uploadPhoto?.name : "Upload profile photo"
@@ -165,7 +165,7 @@ const Register = () => {
 
 
               <button
-               className='bg-primary text-lg  px-4 py-1 hover:bg-secondary rounded mt-2 font-bold text-white leading-relaxed tracking-wide'
+               className='btn btn-outline text-black hover:border-black'
               >
                 Register
               </button>
