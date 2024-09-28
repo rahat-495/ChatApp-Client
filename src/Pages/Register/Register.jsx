@@ -61,14 +61,10 @@ const Register = () => {
     e.preventDefault() ;
     e.stopPropagation() ;
 
-    const URL = `${import.meta.env.REACT_APP_BACKEND_URL}/api/register`
+    const URL = `http://localhost:5555/api/register`
 
     try {
         const response = await axios.post(URL,data)
-        console.log("response",response)
-
-        toast.success(response.data.message)
-
         if(response.data.success){
           setData({
             name : "",
@@ -76,17 +72,17 @@ const Register = () => {
             password : "",
             profile_pic : ""
           }) ;
-          toast('Register Done !') ;
+          toast.success('Registration Done !') ;
           navigate('/email') ;
         }
     } catch (error) {
-        toast.error(error?.response?.data?.message)
+        console.log(error)
     }
   }
 
 
   return (
-    <div className='mt-5'>
+    <div className='mt-32'>
         <div className='bg-white w-full max-w-md text-black gro rounded overflow-hidden p-4 mx-auto'>
           <h3>Welcome to Chat app!</h3>
 
