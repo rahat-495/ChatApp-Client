@@ -64,8 +64,8 @@ const Register = () => {
     const URL = `http://localhost:5555/api/register`
 
     try {
-        const response = await axios.post(URL,data)
-        if(response.data.success){
+        const {data : resData} = await axios.post(URL,data , {withCredentials : true})
+        if(resData.success){
           setData({
             name : "",
             email : "",
@@ -75,16 +75,17 @@ const Register = () => {
           toast.success('Registration Done !') ;
           navigate('/email') ;
         }
-    } catch (error) {
+      } catch (error) {
         console.log(error)
+        toast.error('Email already in use !') ;
     }
   }
 
 
   return (
     <div className='mt-32'>
-        <div className='bg-white w-full max-w-md text-black gro rounded overflow-hidden p-4 mx-auto'>
-          <h3>Welcome to Chat app!</h3>
+        <div className='bg-white w-full max-w-sm text-black gro rounded overflow-hidden p-4 mx-auto'>
+          <h3 className='text-center text-2xl font-semibold'>Welcome to Chat app !</h3>
 
           <form className='grid gap-4 mt-5 text-black gro' onSubmit={handleSubmit}>
               <div className='flex flex-col gap-1'>
@@ -132,7 +133,7 @@ const Register = () => {
               <div className='flex flex-col gap-1'>
                 <label htmlFor='profile_pic'>
 
-                  <div className='h-14 bg-slate-200 flex justify-center items-center border border-[#9e9e9e] rounded hover:border-blue-600 cursor-pointer'>
+                  <div className='h-12 bg-slate-200 flex justify-center items-center border border-[#9e9e9e] rounded hover:border-blue-600 cursor-pointer'>
                       <p className='text-sm max-w-[300px] text-ellipsis line-clamp-1'>
                         {
                           uploadPhoto?.name ? uploadPhoto?.name : "Upload profile photo"
@@ -161,7 +162,7 @@ const Register = () => {
 
 
               <button
-               className='btn btn-outline text-black hover:border-black'
+               className='btn btn-outline text-black hover:border-gray-600 hover:bg-primary hover:text-white'
               >
                 Register
               </button>

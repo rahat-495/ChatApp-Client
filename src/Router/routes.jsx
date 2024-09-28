@@ -6,6 +6,7 @@ import Register from "../Pages/Register/Register";
 import CheckEmail from "../Pages/CheckEmail/CheckEmail";
 import CheckPassword from "../Pages/CheckPassword/CheckPassword";
 import MessagePage from "../Components/MessagePage/MessagePage";
+import ForgatePassword from "../Pages/ForgatePassword/ForgatePassword";
 
 const router = createBrowserRouter([
     {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
             {
                 path : '/password' ,
                 element : <CheckPassword/> ,
+            },
+            {
+                path : '/forgatePassword' ,
+                element : <ForgatePassword/> ,
             },
         ] 
     },
