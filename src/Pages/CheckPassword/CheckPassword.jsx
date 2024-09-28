@@ -4,14 +4,18 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Input, Tooltip } from "@material-tailwind/react";
+import { useDispatch } from "react-redux";
+import { setToken } from "../../Redux/userSlice";
 
 const CheckPassword = () => {
+
   const [data, setData] = useState({
     password: "",
     userId: "",
   });
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch() ;
 
   const splitName = location?.state?.name?.split(" ");
 
@@ -52,8 +56,8 @@ const CheckPassword = () => {
       toast.success(response.data.message);
 
       if (response.data.success) {
-        // dispatch(setToken(response?.data?.token))
-        localStorage.setItem("token", response?.data?.token);
+        dispatch(setToken(response?.data?.token)) ;
+        localStorage.setItem("token", response?.data?.token) ;
 
         setData({
           password: "",
