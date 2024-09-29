@@ -38,9 +38,9 @@ const Sidebar = () => {
                         /> */}
                     </button>
                     <button 
-                    title='logout' 
-                    // onClick={handleLogout}
-                    className='w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded' 
+                        title='logout' 
+                        // onClick={handleLogout}
+                        className='w-12 h-12 flex justify-center hover:bg-gray-400 items-center cursor-pointer hover:bg-slate-200 rounded' 
                     >
                         <span className='-ml-2'>
                             <BiLogOut size={20}/>
