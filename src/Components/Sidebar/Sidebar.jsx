@@ -3,6 +3,7 @@ import { IoChatbubbleEllipses } from "react-icons/io5";
 import { FaUserPlus } from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
 import { BiLogOut } from "react-icons/bi";
+import Avatar from "../Avatar/Avatar";
 
 const Sidebar = () => {
     return (
@@ -29,13 +30,13 @@ const Sidebar = () => {
                     // title={user?.name} 
                     // onClick={()=>setEditUserOpen(true)}
                     >
-                        {/* <Avatar
-                            width={40}
+                        <Avatar
+                            width={30}
                             height={40}
                             // name={user?.name}
                             // imageUrl={user?.profile_pic}
                             // userId={user?._id}
-                        /> */}
+                        />
                     </button>
                     <button 
                         title='logout' 
