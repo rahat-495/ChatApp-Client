@@ -17,7 +17,7 @@ const Register = () => {
     password : "",
     profile_pic : ""
   })
-  const [uploadPhoto,setUploadPhoto] = useState("")
+  const [uploadPhoto,setUploadPhoto] = useState("") ;
   const navigate = useNavigate()
 
   const handleOnChange = (e)=>{
@@ -33,7 +33,7 @@ const Register = () => {
 
   const handleUploadPhoto = async(e)=>{
 
-    const file = e.target.files[0]
+    const file = e.target.files[0] ;
     const formData = new FormData();
     formData.append("image", file);
 
@@ -80,7 +80,6 @@ const Register = () => {
         toast.error('Email already in use !') ;
     }
   }
-
 
   return (
     <div className='mt-32'>

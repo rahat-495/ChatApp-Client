@@ -1,15 +1,82 @@
 
-import { IoChatbubbleEllipses } from "react-icons/io5";
+import { IoChatbubbleEllipses, IoClose } from "react-icons/io5";
 import { FaUserPlus } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 import Avatar from "../Avatar/Avatar";
-import { Tooltip } from "@material-tailwind/react";
+import { Input, Tooltip } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
+import { useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+
+const key = import.meta.env.VITE_IMAGE_HOISTING_API_KEY;
+const apiUrl = `https://api.imgbb.com/1/upload?key=${key}`;
 
 const Sidebar = () => {
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user) ;
+  const [data,setData] = useState({
+    name : user?.name,
+    profile_pic : user?.profile_pic ,
+  })
+  const [uploadPhoto,setUploadPhoto] = useState("") ;
+  const handleClearUploadPhoto = (e)=>{
+    e.stopPropagation()
+    e.preventDefault()
+    setUploadPhoto(null)
+    setData((preve) => {
+      return {
+        ...preve ,
+        profile_pic : "" ,
+      }
+    })
+  }
+
+  const handleUploadPhoto = async(e)=>{
+
+    const file = e.target.files[0]
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const { data } = await axios.post(apiUrl, formData, {
+      headers: { "content-type": "multipart/form-data" },
+    });
+
+    setUploadPhoto(file) ;
+
+    setData((preve)=>{
+      return{
+        ...preve,
+        profile_pic : data?.data?.display_url
+      }
+    })
+  }
+
+  const handleSubmit = async(e)=>{
+    e.preventDefault() ;
+    e.stopPropagation() ;
+
+    const URL = `http://localhost:5555/api/updateUser`
+
+    try {
+      console.log(data)
+        const {data : resData} = await axios.post(URL,data , {withCredentials : true})
+        if(resData.success){
+          setData({
+            name : "",
+            email : "",
+            password : "",
+            profile_pic : ""
+          }) ;
+          toast.success('Profile Update Success Full !') ;
+          document.getElementById("my_modal_1").close() ;
+        }
+      } catch (error) {
+        console.log(error)
+        toast.error('Some thing went wrong !') ;
+    }
+  }
 
   return (
     <div className="w-full h-full grid grid-cols-[48px,1fr] bg-white gro text-black">
@@ -36,11 +103,17 @@ const Sidebar = () => {
         </div>
 
         <div className="flex flex-col items-center">
-            <Tooltip content={user?.name} className="bg-gray-50 border border-primary text-black gro" animate={{
-                mount: { scale: 1, y: 0 },
-                unmount: { scale: 0, y: 25 },
-            }}>
+          <Tooltip
+            content={"Update Profile"}
+            placement="right-start"
+            className="bg-gray-50 border font-semibold border-primary text-black gro"
+            animate={{
+              mount: { scale: 1, x: 0 },
+              unmount: { scale: 0, x: -40 },
+            }}
+          >
             <button
+              onClick={() => document.getElementById("my_modal_1").showModal()}
               className="mx-auto"
               // onClick={()=>setEditUserOpen(true)}
             >
@@ -53,6 +126,7 @@ const Sidebar = () => {
               />
             </button>
           </Tooltip>
+
           <button
             title="logout"
             // onClick={handleLogout}
@@ -144,6 +218,75 @@ const Sidebar = () => {
         //     <SearchUser onClose={()=>setOpenSearchUser(false)}/>
         // )
       }
+
+      <dialog id="my_modal_1" className="modal">
+        <div className="modal-box bg-gray-100 gro">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+            <h3 className="font-bold text-lg">Update Your Profile</h3>
+            <Input
+              color="blue"
+              label="Name"
+              type="text"
+              name="name"
+              placeholder="enter your name"
+              className="bg-slate-100 px-2 py-1 focus:outline-primary"
+              defaultValue={user?.name}
+              onChange={(e) => setData((preve) => {
+                return{
+                  ...preve ,
+                  name : e.target.value ,
+                }
+              })}
+              required
+            />
+            
+            <div className='flex flex-col gap-1'>
+                <label htmlFor='profile_pic'>
+
+                  <div className='h-12 bg-slate-20 gap-3 flex pl-3 items-center border border-[#9e9e9e] rounded hover:border-blue-600 cursor-pointer'>
+                      <Avatar imageUrl={data?.profile_pic ? data?.profile_pic : user?.profile_pic} height={35} width={35}/>
+                      <p className='text-sm max-w-[300px] text-ellipsis line-clamp-1'>
+                        {
+                          uploadPhoto?.name ? uploadPhoto?.name : "Upload profile photo"
+                        }
+                      </p>
+                      {
+                        uploadPhoto?.name && (
+                          <button className='text-lg ml-2 hover:text-red-600' onClick={handleClearUploadPhoto}>
+                            <IoClose/>
+                          </button>
+                        )
+                      }
+                      
+                  </div>
+                
+                </label>
+                
+                <input
+                  type='file'
+                  id='profile_pic'
+                  name='profile_pic'
+                  className='bg-slate-100 px-2 py-1 focus:outline-primary hidden'
+                  onChange={handleUploadPhoto}
+                />
+              </div>
+
+              <button
+               className='btn btn-outline text-black hover:border-gray-600 hover:bg-primary hover:text-white'
+              >
+                Update
+              </button>
+          </form>
+        
+          <div className="modal-action w-full">
+            <form method="dialog" className="w-full">
+              <button className="btn w-full">Close</button>
+            </form>
+          </div>
+
+        </div>
+      </dialog>
+
     </div>
   );
 };
