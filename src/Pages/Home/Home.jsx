@@ -35,7 +35,7 @@ const Home = () => {
                 <Sidebar/>
             </div>
 
-            <div className="w-full bg-blue-gray-600 min-h-screen ml-[250px]">
+            <div className="w-full bg-gray-200 min-h-screen ml-[250px]">
                 <Outlet/>
             </div>
             

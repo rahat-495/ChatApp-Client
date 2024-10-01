@@ -7,6 +7,7 @@ import CheckEmail from "../Pages/CheckEmail/CheckEmail";
 import CheckPassword from "../Pages/CheckPassword/CheckPassword";
 import MessagePage from "../Components/MessagePage/MessagePage";
 import ForgatePassword from "../Pages/ForgatePassword/ForgatePassword";
+import HomeDefaulComp from "../Components/HomeDefaulComp/HomeDefaulComp";
 
 const router = createBrowserRouter([
     {
@@ -18,7 +19,11 @@ const router = createBrowserRouter([
                 element : <Home/> ,
                 children : [
                     {
-                        path : ':userId' ,
+                        path : '/' ,
+                        element : <HomeDefaulComp/>,
+                    },
+                    {
+                        path : '/message/:userId' ,
                         element : <MessagePage/>,
                     },
                 ],

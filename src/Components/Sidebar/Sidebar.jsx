@@ -107,7 +107,7 @@ const Sidebar = () => {
 
         <div className="flex flex-col items-center">
           <Tooltip
-            content={"Update Profile"}
+            content={user?.name}
             placement="right-start"
             className="bg-gray-50 border font-semibold border-primary text-black gro"
             animate={{
