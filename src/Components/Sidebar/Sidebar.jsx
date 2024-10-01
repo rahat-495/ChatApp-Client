@@ -5,22 +5,25 @@ import { NavLink } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 import Avatar from "../Avatar/Avatar";
 import { Input, Tooltip } from "@material-tailwind/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { setUser } from "../../Redux/userSlice";
 
 const key = import.meta.env.VITE_IMAGE_HOISTING_API_KEY;
 const apiUrl = `https://api.imgbb.com/1/upload?key=${key}`;
 
 const Sidebar = () => {
 
+  const dispatch = useDispatch() ;
   const user = useSelector((state) => state.user) ;
+  const [uploadPhoto,setUploadPhoto] = useState("") ;
   const [data,setData] = useState({
     name : user?.name,
     profile_pic : user?.profile_pic ,
-  })
-  const [uploadPhoto,setUploadPhoto] = useState("") ;
+  }) ;
+
   const handleClearUploadPhoto = (e)=>{
     e.stopPropagation()
     e.preventDefault()
@@ -60,7 +63,6 @@ const Sidebar = () => {
     const URL = `http://localhost:5555/api/updateUser`
 
     try {
-      console.log(data)
         const {data : resData} = await axios.post(URL,data , {withCredentials : true})
         if(resData.success){
           setData({
@@ -69,6 +71,7 @@ const Sidebar = () => {
             password : "",
             profile_pic : ""
           }) ;
+          dispatch(setUser(resData?.data)) ;
           toast.success('Profile Update Success Full !') ;
           document.getElementById("my_modal_1").close() ;
         }
