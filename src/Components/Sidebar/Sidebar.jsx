@@ -109,7 +109,7 @@ const Sidebar = () => {
             className="bg-gray-50 border font-semibold border-primary text-black gro"
             animate={{
               mount: { scale: 1, x: 0 },
-              unmount: { scale: 0, x: -40 },
+              unmount: { scale: 0, x: -60 },
             }}
           >
             <button
