@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { setUser } from "../../Redux/userSlice";
 import { FiArrowUpLeft } from "react-icons/fi";
 import SearchUser from "../SearchUser/SearchUser";
+import {useQuery} from '@tanstack/react-query'
 
 const key = import.meta.env.VITE_IMAGE_HOISTING_API_KEY;
 const apiUrl = `https://api.imgbb.com/1/upload?key=${key}`;
@@ -21,11 +22,18 @@ const Sidebar = () => {
   const dispatch = useDispatch() ;
   const user = useSelector((state) => state.user) ;
   const [uploadPhoto,setUploadPhoto] = useState("") ;
-  const [allUser , setAllUser] = useState([]) ;
   const [data,setData] = useState({
     name : user?.name,
     profile_pic : user?.profile_pic ,
   }) ;
+
+  const { data : allUser = [] } = useQuery({
+    queryKey : ['allUser' , user] ,
+    queryFn : async () => {
+      const {data} = await axios.get(`http://localhost:5555/api/allUser`) ;
+      return data ;
+    }
+  });
 
   const handleClearUploadPhoto = (e)=>{
     e.stopPropagation()
