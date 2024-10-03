@@ -2,13 +2,14 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import { logOut, setUser } from "../../Redux/userSlice";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 
 const Home = () => {
 
+    const user = useSelector(state => state.user) ;
     const dispatch = useDispatch() ;
     const navigate = useNavigate() ;
 
@@ -21,12 +22,12 @@ const Home = () => {
     })
 
     useEffect(() => {
-        if(userDetails?.data?.logout){
+        if(userDetails?.data?.logout && user?.token){
             dispatch(logOut()) ;
             navigate('/email') ;
         }
         dispatch(setUser(userDetails?.data)) ;
-    } , [dispatch , userDetails , navigate]) ;
+    } , [dispatch , userDetails , navigate , user]) ;
 
     return (
         <div className="min-h-[70vh] flex w-full gap-10">
