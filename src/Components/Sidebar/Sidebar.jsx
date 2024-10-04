@@ -1,7 +1,7 @@
 
 import { IoChatbubbleEllipses, IoClose } from "react-icons/io5";
 import { FaUserPlus } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 import Avatar from "../Avatar/Avatar";
 import { Input, Tooltip } from "@material-tailwind/react";
@@ -11,6 +11,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { setUser } from "../../Redux/userSlice";
 import SearchUser from "../SearchUser/SearchUser";
+import { useMutation } from "@tanstack/react-query";
 // import { FiArrowUpLeft } from "react-icons/fi";
 // import {useQuery} from '@tanstack/react-query'
 
@@ -21,6 +22,7 @@ const Sidebar = () => {
 
   const dispatch = useDispatch() ;
   const user = useSelector((state) => state.user) ;
+  const navigate = useNavigate() ;
   const [uploadPhoto,setUploadPhoto] = useState("") ;
   const [data,setData] = useState({
     name : user?.name,
@@ -34,6 +36,18 @@ const Sidebar = () => {
   //     return data ;
   //   }
   // });
+
+  const {mutateAsync} = useMutation({
+    mutationFn : async () => {
+      localStorage.removeItem('token') ;
+      const {data} = await axios.get('http://localhost:5555/api/logOut' , {withCredentials : true}) ;
+      return data ;
+    } ,
+    onSuccess : () => {
+      toast.success('Logout Success Full !') ;
+      navigate('/email') ;
+    }
+  })
 
   const handleClearUploadPhoto = (e)=>{
     e.stopPropagation()
@@ -92,6 +106,10 @@ const Sidebar = () => {
     }
   }
 
+  const handleLogout = async () => {
+    await mutateAsync() ;
+  }
+
   return (
     <div className="w-full h-full grid grid-cols-[48px,1fr] bg-white gro text-black">
       <div className="bg-gray-200 w-12 h-full rounded-tr-lg rounded-br-lg py-5 text-gray-800 flex flex-col justify-between">
@@ -143,7 +161,7 @@ const Sidebar = () => {
 
           <button
             title="logout"
-            // onClick={handleLogout}
+            onClick={handleLogout}
             className="w-12 h-12 flex justify-center hover:bg-gray-400 items-center cursor-pointer hover:bg-slate-200 rounded"
           >
             <span className="-ml-2">

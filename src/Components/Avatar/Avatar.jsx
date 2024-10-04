@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 const Avatar = ({userId,name,imageUrl,width,height}) => {
 
-    const onlineUser = useSelector(state => state?.user?.onlineUser)
+    const onlineUser = useSelector(state => state?.user?.onlineUser) ;
 
     let avatarName = ""
 
@@ -35,7 +35,7 @@ const Avatar = ({userId,name,imageUrl,width,height}) => {
     const isOnline = onlineUser?.includes(userId) ;
 
   return (
-    <div className={`text-slate-800  rounded-full font-bold relative`} style={{width : width+"px", height : height+"px" }}>
+    <div className={`text-slate-800  rounded-full font-bold relative `} style={{width : width+"px", height : height+"px" }}>
         {
             imageUrl ? (
                 <img

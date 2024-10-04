@@ -4,8 +4,9 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
-import { logOut, setUser } from "../../Redux/userSlice";
+import { logOut, setOnlineUser, setSocketConnection, setUser } from "../../Redux/userSlice";
 import Sidebar from "../../Components/Sidebar/Sidebar";
+import io from 'socket.io-client' ;
 
 const Home = () => {
 
@@ -22,12 +23,30 @@ const Home = () => {
     })
 
     useEffect(() => {
-        if(userDetails?.data?.logout && user?.token){
+        if(userDetails?.data?.logout && !user?.token){
             dispatch(logOut()) ;
             navigate('/email') ;
         }
         dispatch(setUser(userDetails?.data)) ;
     } , [dispatch , userDetails , navigate , user]) ;
+
+    useEffect(() => {
+        const socketConnection = io('http://localhost:5555' , {
+            auth : {
+                token : localStorage.getItem('token') ,
+            }
+        }) ;
+
+        socketConnection.on('onlineUser' , (data) => {
+            dispatch(setOnlineUser(data)) ;
+        })
+
+        dispatch(setSocketConnection(socketConnection)) ;
+        
+        return () => {
+            socketConnection.disconnect() ;
+        }
+    } , [dispatch])
 
     return (
         <div className="min-h-[70vh] flex w-full gap-10">
