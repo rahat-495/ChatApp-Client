@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { FaAngleLeft, FaImage, FaPlus, FaVideo } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
-import { IoClose } from "react-icons/io5";
+// import { IoClose } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { HiDotsVertical } from "react-icons/hi";
