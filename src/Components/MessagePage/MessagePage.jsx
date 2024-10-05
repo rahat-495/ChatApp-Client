@@ -8,11 +8,17 @@ import { Link, useParams } from "react-router-dom";
 import { HiDotsVertical } from "react-icons/hi";
 import backgroundImage from '../../assets/wallapaper.jpeg'
 import Avatar from "../Avatar/Avatar";
+import axios from "axios";
 
 const MessagePage = () => {
     
     const {userId} = useParams() ;
     const [isOpen , setIsOpen] = useState(false) ;
+    const [message , setMessage] = useState({
+      text : "" ,
+      imageUrl : "" ,
+      videoUrl : "" ,
+    })
     const [userData , setUserData] = useState({
         _id : "" ,
         name : "" ,
@@ -30,6 +36,34 @@ const MessagePage = () => {
             })
         }
     } , [socketConnection , userId])
+
+    const handleUploadImage = async (e) => {
+      const file = e.target.files[0] ;
+      const formData = new FormData() ;
+      formData.append('file', file);
+      formData.append('upload_preset', 'Chat-app-file');
+      const {data} = await axios.post(import.meta.env.VITE_UPLOADING_ANYTHING_URL, formData);
+      setMessage((preve) => {
+        return {
+          ...preve ,
+          imageUrl : data?.url ,
+        }
+      })
+    }
+    
+    const handleUploadVideo = async (e) => {
+      const file = e.target.files[0] ;
+      const formData = new FormData() ;
+      formData.append('file', file);
+      formData.append('upload_preset', 'Chat-app-file');
+      const {data} = await axios.post(import.meta.env.VITE_UPLOADING_ANYTHING_URL, formData);
+      setMessage((preve) => {
+        return {
+          ...preve ,
+          videoUrl : data?.url ,
+        }
+      })
+    }
 
     return (
         <div style={{ backgroundImage : `url(${backgroundImage})`}} className='bg-no-repeat bg-cover'>
@@ -181,14 +215,14 @@ const MessagePage = () => {
                         <input 
                           type='file'
                           id='uploadImage'
-                        //   onChange={handleUploadImage}
+                          onChange={handleUploadImage}
                           className='hidden'
                         />
 
                         <input 
                           type='file'
                           id='uploadVideo'
-                        //   onChange={handleUploadVideo}
+                          onChange={handleUploadVideo}
                           className='hidden'
                         />
                     </form>
