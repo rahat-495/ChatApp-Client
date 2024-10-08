@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { FaAngleLeft, FaImage, FaPlus, FaVideo } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
-// import { IoClose } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { HiDotsVertical } from "react-icons/hi";
@@ -140,40 +140,55 @@ const MessagePage = () => {
 
                 {/**upload Image display */}
                 {
-                //   message.imageUrl && (
-                //     <div className='w-full h-full sticky bottom-0 bg-slate-700 bg-opacity-30 flex justify-center items-center rounded overflow-hidden'>
-                //       <div className='w-fit p-2 absolute top-0 right-0 cursor-pointer hover:text-red-600' onClick={handleClearUploadImage}>
-                //           <IoClose size={30}/>
-                //       </div>
-                //       <div className='bg-white p-3'>
-                //           <img
-                //             // src={message.imageUrl}
-                //             alt='uploadImage'
-                //             className='aspect-square w-full h-full max-w-sm m-2 object-scale-down'
-                //           />
-                //       </div>
-                //     </div>
-                //   )
+                  message.imageUrl && (
+                    <div className='w-full h-full sticky bottom-0 bg-slate-700 bg-opacity-30 flex justify-center items-center rounded overflow-hidden'>
+                      <div 
+                        className='w-fit p-2 absolute top-0 right-0 cursor-pointer hover:text-red-600' 
+                        onClick={() => setMessage((preve) => {
+                          return {
+                            ...preve ,
+                            imageUrl : "" ,
+                          }
+                        })}>
+                          <IoClose size={30}/>
+                      </div>
+                      <div className='bg-white p-3'>
+                          <img
+                            src={message.imageUrl}
+                            alt='uploadImage'
+                            className='aspect-square w-full h-full max-w-sm m-2 object-scale-down'
+                          />
+                      </div>
+                    </div>
+                  )
                 }
 
                 {/**upload video display */}
                 {
-                //   message.videoUrl && (
-                //     <div className='w-full h-full sticky bottom-0 bg-slate-700 bg-opacity-30 flex justify-center items-center rounded overflow-hidden'>
-                //       <div className='w-fit p-2 absolute top-0 right-0 cursor-pointer hover:text-red-600' onClick={handleClearUploadVideo}>
-                //           <IoClose size={30}/>
-                //       </div>
-                //       <div className='bg-white p-3'>
-                //           <video 
-                //             // src={message.videoUrl} 
-                //             className='aspect-square w-full h-full max-w-sm m-2 object-scale-down'
-                //             controls
-                //             muted
-                //             autoPlay
-                //           />
-                //       </div>
-                //     </div>
-                //   )
+                  message.videoUrl && (
+                    <div className='w-full h-full sticky bottom-0 bg-slate-700 bg-opacity-30 flex justify-center items-center rounded overflow-hidden'>
+                      <div 
+                        className='w-fit p-2 absolute top-0 right-0 cursor-pointer hover:text-red-600' 
+                        onClick={() => setMessage((preve) => {
+                          return {
+                            ...preve ,
+                            videoUrl : "" ,
+                          }
+                        })}
+                      >
+                          <IoClose size={30}/>
+                      </div>
+                      <div className='bg-white p-3'>
+                          <video 
+                            src={message.videoUrl} 
+                            className='aspect-square w-full h-full max-w-sm m-2 object-scale-down'
+                            controls
+                            muted
+                            autoPlay
+                          />
+                      </div>
+                    </div>
+                  )
                 }
 
                 {
