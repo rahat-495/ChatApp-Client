@@ -63,7 +63,7 @@ const SearchUser = () => {
                         users?.length === 0 && !isLoading && <p className="text-white">No Users Found !</p>
                     }
                     {
-                        users?.length > 0 && !isLoading && users?.map((user) => <Link onClick={handleClose} key={user?._id} to={"/message/"+user?._id} className='flex items-center gro text-white gap-3 p-2 my-2 lg:p-1 w-full border border-transparent border-b-gray-200 hover:border hover:border-primary rounded-none hover:rounded-md duration-300 ease-in-out cursor-pointer'>
+                        users?.length > 0 && !isLoading && users?.map((user) => <Link onClick={handleClose} key={user?._id} to={currentUser?._id === user?._id ? "" : "/message/"+user?._id} className='flex items-center gro text-white gap-3 p-2 my-2 lg:p-1 w-full border border-transparent border-b-gray-200 hover:border hover:border-primary rounded-none hover:rounded-md duration-300 ease-in-out cursor-pointer'>
                                 
                             <div>
                                 <Avatar
